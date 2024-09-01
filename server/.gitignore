@@ -126,3 +126,4 @@ src/.vs/config/applicationhost.config
 
 # config
 **/obj/
+**/appsettings.Environment.json
