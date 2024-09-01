@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.Text;
 using repo;
 using Microsoft.IdentityModel.Tokens;
+using services.auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,9 @@ builder.Services.AddAuthentication(o => {
        };
        o.Events = new JwtBearerEvents();
 });
+
+// custom services
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
