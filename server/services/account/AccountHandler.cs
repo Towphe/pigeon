@@ -5,7 +5,7 @@ namespace services.account
 {
     public interface IAccountHandler
     {
-        public Task Signup(string username, string auth0Id);
+        public Task Signup(string? username, string auth0Id);
         public Task<bool> IsUsernameTaken(string username);
         public Task<Account?> GetAccount(string username);
         public Task<List<Account>> GetAccounts(int p = 0, int c = 0, string? filter = null);
@@ -20,7 +20,7 @@ namespace services.account
             _dbContext = dbCtx;
         }
 
-        public async Task Signup(string username, string auth0Id)
+        public async Task Signup(string? username, string auth0Id)
         {
             // create new `Account` object
             var newAccount = new Account();
@@ -29,7 +29,7 @@ namespace services.account
             newAccount.Auth0Id = auth0Id;
 
             // save new account
-            await _dbContext.AddAsync(newAccount);
+            await _dbContext.Accounts.AddAsync(newAccount);
             await _dbContext.SaveChangesAsync();
 
             return;

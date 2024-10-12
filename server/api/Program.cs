@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using services.account;
+using api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,12 @@ builder.Configuration
        .Build();
 
 builder.Services.AddControllers()
-       .AddJsonOptions(o => o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+       .AddJsonOptions(o => {
+                o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                o.JsonSerializerOptions.PropertyNamingPolicy = null;
+                o.JsonSerializerOptions.DictionaryKeyPolicy = null;
+                o.JsonSerializerOptions.NumberHandling = JsonNumberHandling.AllowReadingFromString;
+       });
 
 builder.WebHost.ConfigureKestrel(opts => {
        opts.AddServerHeader = false;
@@ -98,6 +105,8 @@ builder.Services.AddCors(opts => {
 });
 
 // custom services
+builder.Services.AddScoped<IAccountHandler, AccountHandler>();
+builder.Services.AddScoped<Auth0IPFilter>();
 
 var app = builder.Build();
 
