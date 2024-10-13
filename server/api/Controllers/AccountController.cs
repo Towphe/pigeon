@@ -4,6 +4,7 @@ using data.account;
 using repo;
 using services.account;
 using api.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace api.Controllers
 {
@@ -26,6 +27,16 @@ namespace api.Controllers
             // create user
             await _accountHandler.Signup(newUser.Username, newUser.Auth0Id);
             return Ok("Successfully created account.");
+        }
+
+        [HttpGet("users")]
+        [Authorize(Auth0Permission.ReadAllUsers)]
+        public async Task<IActionResult> RetrieveAccounts(int p = 1, int c = 10, string? filter = null)
+        {
+            // retrieve accounts
+            var accounts = await _accountHandler.GetAccounts(p, c, filter);
+
+            return Ok(accounts);
         }
     }
 }

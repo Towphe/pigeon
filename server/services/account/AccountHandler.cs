@@ -59,17 +59,17 @@ namespace services.account
             return user;
         }
 
-        public async Task<List<Account>> GetAccounts(int p = 0, int c = 0, string? filter = null)
+        public async Task<List<Account>> GetAccounts(int p = 1, int c = 10, string? filter = null)
         {
             List<Account>? accounts = null;
 
-            if (filter != null)
+            if (filter == null)
             {
-                accounts = await _dbContext.Accounts.Where(a => a.Username == filter).Skip(c*p).Take(c).ToListAsync();
+                accounts = await _dbContext.Accounts.Skip((p-1)*10).Take(c).ToListAsync();
             }
             else
             {
-                accounts = await _dbContext.Accounts.Skip(c*p).Take(c).ToListAsync();
+                accounts = await _dbContext.Accounts.Where(a => a.Username.Contains(filter)).Skip(c*p).Take(c).ToListAsync();
             }
             
 
