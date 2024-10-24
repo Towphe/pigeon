@@ -1,11 +1,1 @@
-<main>
-  <p>Hello, world!</p>
-  @if(!token)
-    {
-      <button (click)="login()">Login</button>
-    }
-  @else
-    {
-      <button (click)="auth.logout()">Logout</button>
-    }
-</main>
+<router-outlet></router-outlet>

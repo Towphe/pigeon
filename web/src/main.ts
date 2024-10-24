@@ -9,7 +9,7 @@ import { routes } from './app/app.routes';
 bootstrapApplication(AppComponent, 
   {
     providers: [
-      provideRouter(routes, withPreloading(PreloadAllModules)),
+      provideRouter(routes),
       provideAuth0({
         domain: 'https://dev-6fhz7djtuwfudwow.us.auth0.com',
         clientId: 'Zv579OpwKCR1n9kUDQgB8eNStSyHT8RL',
